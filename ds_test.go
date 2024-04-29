@@ -33,6 +33,8 @@ func Test834(t *testing.T) {
 					walk(u, v)
 					subTreeNds[v] += subTreeNds[u]
 					dists[v] += dists[u] + subTreeNds[u]
+
+					log.Print(v, u, dists)
 				}
 			}
 		}
