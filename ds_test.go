@@ -59,3 +59,23 @@ func Test834(t *testing.T) {
 	log.Print("[8 12 6 10 10 10] ?= ", sumOfDistancesInTree(6, [][]int{{0, 1}, {0, 2}, {2, 3}, {2, 4}, {2, 5}}))
 	log.Print("[1 1] ?= ", sumOfDistancesInTree(2, [][]int{{0, 1}}))
 }
+
+// 2997m Minimum Number of Operations to Make Array XOR Equal to K
+func Test2997(t *testing.T) {
+	minOperations := func(nums []int, k int) int {
+		x := k
+		for _, n := range nums {
+			x ^= n
+		}
+
+		ops := 0
+		for x > 0 {
+			ops += x & 1
+			x >>= 1
+		}
+		return ops
+	}
+
+	log.Print("2 ?= ", minOperations([]int{2, 1, 3, 4}, 1))
+	log.Print("0 ?= ", minOperations([]int{2, 0, 2, 0}, 0))
+}
