@@ -79,3 +79,42 @@ func Test2997(t *testing.T) {
 	log.Print("2 ?= ", minOperations([]int{2, 1, 3, 4}, 1))
 	log.Print("0 ?= ", minOperations([]int{2, 0, 2, 0}, 0))
 }
+
+// 1915m Number of Wonderful Substrings
+func Test1915(t *testing.T) {
+	wonderfulSubstrings := func(word string) int64 {
+		var x int64
+
+		Frq := map[int]int64{}
+		Frq[0] = 1
+
+		mask := 0
+		for i := 0; i < len(word); i++ {
+			mask ^= 1 << (word[i] - 'a')
+
+			log.Printf("%3d %010b   %q", mask, mask&0x3ff, word[0:i+1])
+
+			if f, ok := Frq[mask]; ok {
+				x += f
+				Frq[mask]++
+			} else {
+				Frq[mask] = 1
+			}
+
+			for p := 0; p < 10; p++ {
+				if f, ok := Frq[mask^(1<<p)]; ok {
+					x += f
+				}
+			}
+		}
+
+		log.Print(Frq)
+
+		return x
+	}
+
+	log.Print("3 ?= ", wonderfulSubstrings("ab"))
+	log.Print("4 ?= ", wonderfulSubstrings("aab"))
+	log.Print("9 ?= ", wonderfulSubstrings("aabb"))
+	log.Print("12 ?= ", wonderfulSubstrings("feffaec"))
+}
