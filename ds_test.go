@@ -118,3 +118,27 @@ func Test1915(t *testing.T) {
 	log.Print("9 ?= ", wonderfulSubstrings("aabb"))
 	log.Print("12 ?= ", wonderfulSubstrings("feffaec"))
 }
+
+// 2000 Reverse Prefix of Word
+func Test2000(t *testing.T) {
+	reversePrefix := func(word string, ch byte) string {
+		bs := []byte(word)
+		i := 0
+		for i < len(bs) && word[i] != ch {
+			i++
+		}
+		if i < len(bs) {
+			j := 0
+			for j < i {
+				bs[j], bs[i] = bs[i], bs[j]
+				i--
+				j++
+			}
+		}
+		return string(bs)
+	}
+
+	log.Print("dcbaefd ?= ", reversePrefix("abcdefd", 'd'))
+	log.Print("zxyxxe ?= ", reversePrefix("xyxzxe", 'z'))
+	log.Print("abcd ?= ", reversePrefix("abcd", 'z'))
+}
