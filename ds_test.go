@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/list"
 	"log"
 	"testing"
 )
@@ -138,7 +139,27 @@ func Test2000(t *testing.T) {
 		return string(bs)
 	}
 
-	log.Print("dcbaefd ?= ", reversePrefix("abcdefd", 'd'))
-	log.Print("zxyxxe ?= ", reversePrefix("xyxzxe", 'z'))
-	log.Print("abcd ?= ", reversePrefix("abcd", 'z'))
+	stacker := func(word string, ch byte) string {
+		S := list.New()
+
+		bs := make([]byte, 0, len(word))
+		for i := 0; i < len(word); i++ {
+			if word[i] == ch {
+				bs = append(bs, word[i])
+				for S.Len() > 0 {
+					bs = append(bs, S.Remove(S.Back()).(byte))
+				}
+				return string(bs) + word[i+1:]
+			}
+			S.PushBack(word[i])
+		}
+
+		return word
+	}
+
+	for _, f := range []func(string, byte) string{reversePrefix, stacker} {
+		log.Print("dcbaefd ?= ", f("abcdefd", 'd'))
+		log.Print("zxyxxe ?= ", f("xyxzxe", 'z'))
+		log.Print("abcd ?= ", f("abcd", 'z'))
+	}
 }
