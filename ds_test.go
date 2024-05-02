@@ -195,7 +195,31 @@ func Test2441(t *testing.T) {
 		return -1
 	}
 
-	for _, f := range []func([]int) int{findMaxK, twoPointers} {
+	// O(n)
+	// 1 <= n <= 1000
+	hashArray := func(nums []int) int {
+		Mem := make([]int, 1001)
+
+		x := -1
+		for _, n := range nums {
+			if n < 0 {
+				if Mem[-n] == -n {
+					x = max(x, -n)
+				} else {
+					Mem[-n] = n
+				}
+			} else {
+				if Mem[n] == -n {
+					x = max(x, n)
+				} else {
+					Mem[n] = n
+				}
+			}
+		}
+		return x
+	}
+
+	for _, f := range []func([]int) int{findMaxK, twoPointers, hashArray} {
 		log.Print("3 ?= ", f([]int{-1, 2, -3, 3}))
 		log.Print("7 ?= ", f([]int{-1, 10, 6, 7, -7, 1}))
 		log.Print("-1 ?= ", f([]int{-10, 8, 6, 7, -2, -3}))
