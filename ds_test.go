@@ -200,9 +200,9 @@ func Test2441(t *testing.T) {
 	}
 
 	// O(n)
-	// 1 <= n <= 1000
+	// 1 <= n <= 10000
 	hashArray := func(nums []int) int {
-		Mem := make([]int, 1001)
+		Mem := make([]int, 10001)
 
 		x := -1
 		for _, n := range nums {
@@ -223,9 +223,9 @@ func Test2441(t *testing.T) {
 		return x
 	}
 
-	nums := make([]int, 0, 1000)
-	for range 1000 {
-		n := rand.Intn(1000) + 1
+	nums := make([]int, 0, 10000)
+	for range 10000 {
+		n := rand.Intn(10000) + 1
 		if rand.Intn(2) == 1 {
 			n *= -1
 		}
