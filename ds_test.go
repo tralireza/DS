@@ -163,3 +163,26 @@ func Test2000(t *testing.T) {
 		log.Print("abcd ?= ", f("abcd", 'z'))
 	}
 }
+
+// 2441 Largest Positive Integer That Exists With Its Negative
+func Test2441(t *testing.T) {
+	findMaxK := func(nums []int) int {
+		x := -1
+		Mem := map[int]struct{}{}
+		for _, n := range nums {
+			if _, ok := Mem[-n]; ok {
+				x = max(x, max(n, -n))
+			} else {
+				Mem[n] = struct{}{}
+			}
+		}
+		return x
+	}
+
+	for _, f := range []func([]int) int{findMaxK} {
+		log.Print("3 ?= ", f([]int{-1, 2, -3, 3}))
+		log.Print("7 ?= ", f([]int{-1, 10, 6, 7, -7, 1}))
+		log.Print("-1 ?= ", f([]int{-10, 8, 6, 7, -2, -3}))
+
+	}
+}
