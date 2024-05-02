@@ -3,6 +3,7 @@ package main
 import (
 	"container/list"
 	"log"
+	"slices"
 	"testing"
 )
 
@@ -179,10 +180,25 @@ func Test2441(t *testing.T) {
 		return x
 	}
 
-	for _, f := range []func([]int) int{findMaxK} {
+	twoPointers := func(nums []int) int {
+		slices.Sort(nums)
+		l, r := 0, len(nums)-1
+		for l < r {
+			if -nums[l] == nums[r] {
+				return nums[r]
+			} else if -nums[l] < nums[r] {
+				r--
+			} else {
+				l++
+			}
+		}
+		return -1
+	}
+
+	for _, f := range []func([]int) int{findMaxK, twoPointers} {
 		log.Print("3 ?= ", f([]int{-1, 2, -3, 3}))
 		log.Print("7 ?= ", f([]int{-1, 10, 6, 7, -7, 1}))
 		log.Print("-1 ?= ", f([]int{-10, 8, 6, 7, -2, -3}))
-
+		log.Print("===")
 	}
 }
