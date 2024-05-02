@@ -3,8 +3,10 @@ package main
 import (
 	"container/list"
 	"log"
+	"math/rand"
 	"slices"
 	"testing"
+	"time"
 )
 
 func init() {
@@ -167,6 +169,7 @@ func Test2000(t *testing.T) {
 
 // 2441 Largest Positive Integer That Exists With Its Negative
 func Test2441(t *testing.T) {
+	// ~O(n)
 	findMaxK := func(nums []int) int {
 		x := -1
 		Mem := map[int]struct{}{}
@@ -180,6 +183,7 @@ func Test2441(t *testing.T) {
 		return x
 	}
 
+	// O(nlogn)
 	twoPointers := func(nums []int) int {
 		slices.Sort(nums)
 		l, r := 0, len(nums)-1
@@ -219,10 +223,22 @@ func Test2441(t *testing.T) {
 		return x
 	}
 
+	nums := make([]int, 0, 1000)
+	for range 1000 {
+		n := rand.Intn(1000) + 1
+		if rand.Intn(2) == 1 {
+			n *= -1
+		}
+		nums = append(nums, n)
+	}
 	for _, f := range []func([]int) int{findMaxK, twoPointers, hashArray} {
 		log.Print("3 ?= ", f([]int{-1, 2, -3, 3}))
 		log.Print("7 ?= ", f([]int{-1, 10, 6, 7, -7, 1}))
 		log.Print("-1 ?= ", f([]int{-10, 8, 6, 7, -2, -3}))
+		ts := time.Now()
+		v := f(nums)
+		dur := time.Since(ts)
+		log.Print(" ?= ", v, " [", dur, "]")
 		log.Print("===")
 	}
 }
