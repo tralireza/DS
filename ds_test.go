@@ -5,6 +5,8 @@ import (
 	"log"
 	"math/rand"
 	"slices"
+	"strconv"
+	"strings"
 	"testing"
 	"time"
 )
@@ -200,9 +202,9 @@ func Test2441(t *testing.T) {
 	}
 
 	// O(n)
-	// 1 <= n <= 10000
+	// 1 <= n <= 100_000
 	hashArray := func(nums []int) int {
-		Mem := make([]int, 10001)
+		Mem := make([]int, 100_001)
 
 		x := -1
 		for _, n := range nums {
@@ -223,9 +225,9 @@ func Test2441(t *testing.T) {
 		return x
 	}
 
-	nums := make([]int, 0, 10000)
-	for range 10000 {
-		n := rand.Intn(10000) + 1
+	nums := make([]int, 0, 100_000)
+	for range 100_000 {
+		n := rand.Intn(100_000) + 1
 		if rand.Intn(2) == 1 {
 			n *= -1
 		}
@@ -241,4 +243,31 @@ func Test2441(t *testing.T) {
 		log.Print(" ?= ", v, " [", dur, "]")
 		log.Print("===")
 	}
+}
+
+// 165m Compare Version Numbers
+func Test165(t *testing.T) {
+	compareVersion := func(version1 string, version2 string) int {
+		Ver1, Ver2 := strings.Split(version1, "."), strings.Split(version2, ".")
+		for i1, i2 := 0, 0; i1 < len(Ver1) || i2 < len(Ver2); i1, i2 = i1+1, i2+1 {
+			v1, v2 := 0, 0
+			if i1 < len(Ver1) {
+				v1, _ = strconv.Atoi(Ver1[i1])
+			}
+			if i2 < len(Ver2) {
+				v2, _ = strconv.Atoi(Ver2[i2])
+			}
+
+			if v1 < v2 {
+				return -1
+			} else if v1 > v2 {
+				return 1
+			}
+		}
+		return 0
+	}
+
+	log.Print("0 ?= ", compareVersion("1.01", "1.001"))
+	log.Print("0 ?= ", compareVersion("1.0", "1.0.0"))
+	log.Print("-1 ?= ", compareVersion("0.1", "1.1"))
 }
