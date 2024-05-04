@@ -271,3 +271,25 @@ func Test165(t *testing.T) {
 	log.Print("0 ?= ", compareVersion("1.0", "1.0.0"))
 	log.Print("-1 ?= ", compareVersion("0.1", "1.1"))
 }
+
+// 881m Boats to Save People
+func Test881(t *testing.T) {
+	numRescueBoats := func(people []int, limit int) int {
+		slices.Sort(people)
+
+		boats := 0
+		l, r := 0, len(people)-1
+		for l <= r {
+			boats++
+			if people[l]+people[r] <= limit {
+				l++
+			}
+			r--
+		}
+		return boats
+	}
+
+	log.Print("1 ?= ", numRescueBoats([]int{1, 2}, 3))
+	log.Print("3 ?= ", numRescueBoats([]int{3, 2, 2, 1}, 3))
+	log.Print("4 ?= ", numRescueBoats([]int{3, 5, 3, 4}, 5))
+}
