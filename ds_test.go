@@ -2,6 +2,7 @@ package main
 
 import (
 	"container/list"
+	"fmt"
 	"log"
 	"math/rand"
 	"slices"
@@ -292,4 +293,36 @@ func Test881(t *testing.T) {
 	log.Print("1 ?= ", numRescueBoats([]int{1, 2}, 3))
 	log.Print("3 ?= ", numRescueBoats([]int{3, 2, 2, 1}, 3))
 	log.Print("4 ?= ", numRescueBoats([]int{3, 5, 3, 4}, 5))
+}
+
+// 237m Delete Node in a Linked List
+func Test237(t *testing.T) {
+	type ListNode struct {
+		Val  int
+		Next *ListNode
+	}
+
+	// node Is an Internal Node
+	deleteNode := func(node *ListNode) {
+		node.Val = node.Next.Val
+		node.Next = node.Next.Next
+	}
+
+	draw := func(n *ListNode) {
+		for ; n != nil; n = n.Next {
+			if n.Next != nil {
+				fmt.Printf("{%d *}->", n.Val)
+			} else {
+				fmt.Printf("{%d /}\n", n.Val)
+			}
+		}
+	}
+
+	type L = ListNode
+	n := &L{5, &L{1, &L{Val: 9}}}
+	l := &L{4, n}
+
+	draw(l)
+	deleteNode(n)
+	draw(l)
 }
