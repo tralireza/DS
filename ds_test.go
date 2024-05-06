@@ -369,6 +369,6 @@ func Test2487(t *testing.T) {
 	for _, l := range []*L{&L{5, &L{2, &L{13, &L{3, &L{Val: 8}}}}}, &L{1, &L{1, &L{1, &L{Val: 1}}}}} {
 		draw(l)
 		draw(removeNodes(l))
-		log.Print("===")
+		log.Print("+++")
 	}
 }
