@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"reflect"
+	"runtime"
 	"slices"
 	"strconv"
 	"strings"
@@ -348,22 +350,23 @@ func Test2487(t *testing.T) {
 		return head
 	}
 
-	draw := func(n *ListNode) {
+	draw := func(n *ListNode) string {
+		sbr := strings.Builder{}
 		for ; n != nil; n = n.Next {
 			if n.Next != nil {
-				fmt.Printf("{%d *}->", n.Val)
+				sbr.WriteString(fmt.Sprintf("{%d *}->", n.Val))
 			} else {
-				fmt.Printf("{%d /}\n", n.Val)
+				sbr.WriteString(fmt.Sprintf("{%d /}", n.Val))
 			}
 		}
+		return sbr.String()
 	}
 
 	type L = ListNode
-	for _, l := range []*L{&L{5, &L{2, &L{13, &L{3, &L{Val: 8}}}}}, &L{1, &L{1, &L{1, &L{Val: 1}}}}} {
-		for _, f := range []func(*ListNode) *ListNode{withStack, removeNodes} {
-			draw(l)
-			draw(f(l))
+	for _, f := range []func(*ListNode) *ListNode{withStack, removeNodes} {
+		log.Print("|> ", runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name(), " :---")
+		for _, l := range []*L{&L{5, &L{2, &L{13, &L{3, &L{Val: 8}}}}}, &L{1, &L{1, &L{1, &L{Val: 1}}}}} {
+			log.Printf("%s  =>  %s", draw(l), draw(f(l)))
 		}
-		log.Print("+++")
 	}
 }
