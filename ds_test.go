@@ -1,4 +1,4 @@
-package main
+package DS
 
 import (
 	"container/list"
@@ -325,4 +325,50 @@ func Test237(t *testing.T) {
 	draw(l)
 	deleteNode(n)
 	draw(l)
+}
+
+// 2487m Remove Nodes from Linked List
+func Test2487(t *testing.T) {
+	type ListNode struct {
+		Val  int
+		Next *ListNode
+	}
+
+	removeNodes := func(head *ListNode) *ListNode {
+		S := list.New()
+		for n := head; n != nil; n = n.Next {
+			for S.Len() > 0 && n.Val > S.Back().Value.(*ListNode).Val {
+				S.Remove(S.Back())
+			}
+			S.PushBack(n)
+		}
+
+		head = S.Remove(S.Front()).(*ListNode)
+
+		n := head
+		for S.Len() > 0 {
+			n.Next = S.Remove(S.Front()).(*ListNode)
+			n = n.Next
+		}
+		n.Next = nil
+
+		return head
+	}
+
+	draw := func(n *ListNode) {
+		for ; n != nil; n = n.Next {
+			if n.Next != nil {
+				fmt.Printf("{%d *}->", n.Val)
+			} else {
+				fmt.Printf("{%d /}\n", n.Val)
+			}
+		}
+	}
+
+	type L = ListNode
+	for _, l := range []*L{&L{5, &L{2, &L{13, &L{3, &L{Val: 8}}}}}, &L{1, &L{1, &L{1, &L{Val: 1}}}}} {
+		draw(l)
+		draw(removeNodes(l))
+		log.Print("===")
+	}
 }
