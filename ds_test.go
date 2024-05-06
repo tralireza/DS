@@ -329,12 +329,7 @@ func Test237(t *testing.T) {
 
 // 2487m Remove Nodes from Linked List
 func Test2487(t *testing.T) {
-	type ListNode struct {
-		Val  int
-		Next *ListNode
-	}
-
-	removeNodes := func(head *ListNode) *ListNode {
+	withStack := func(head *ListNode) *ListNode {
 		S := list.New()
 		for n := head; n != nil; n = n.Next {
 			for S.Len() > 0 && n.Val > S.Back().Value.(*ListNode).Val {
@@ -344,14 +339,12 @@ func Test2487(t *testing.T) {
 		}
 
 		head = S.Remove(S.Front()).(*ListNode)
-
 		n := head
 		for S.Len() > 0 {
 			n.Next = S.Remove(S.Front()).(*ListNode)
 			n = n.Next
 		}
 		n.Next = nil
-
 		return head
 	}
 
@@ -367,8 +360,10 @@ func Test2487(t *testing.T) {
 
 	type L = ListNode
 	for _, l := range []*L{&L{5, &L{2, &L{13, &L{3, &L{Val: 8}}}}}, &L{1, &L{1, &L{1, &L{Val: 1}}}}} {
-		draw(l)
-		draw(removeNodes(l))
+		for _, f := range []func(*ListNode) *ListNode{withStack, removeNodes} {
+			draw(l)
+			draw(f(l))
+		}
 		log.Print("+++")
 	}
 }
