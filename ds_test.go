@@ -387,7 +387,7 @@ func Test2816(t *testing.T) {
 	}
 
 	type L = ListNode
-	for _, l := range []*L{&L{1, &L{8, &L{Val: 9}}}, &L{9, &L{9, &L{Val: 9}}}, &L{1, &L{}}} {
+	for _, l := range []*L{&L{1, &L{8, &L{Val: 9}}}, &L{9, &L{9, &L{Val: 9}}}, &L{1, &L{}}, &L{Val: 9}} {
 		log.Printf("%s  =>  %s", draw(l), draw(doubleIt(l)))
 	}
 }
