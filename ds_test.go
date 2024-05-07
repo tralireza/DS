@@ -1,6 +1,7 @@
 package DS
 
 import (
+	"bytes"
 	"container/list"
 	"fmt"
 	"log"
@@ -368,5 +369,25 @@ func Test2487(t *testing.T) {
 		for _, l := range []*L{&L{5, &L{2, &L{13, &L{3, &L{Val: 8}}}}}, &L{1, &L{1, &L{1, &L{Val: 1}}}}} {
 			log.Printf("%s  =>  %s", draw(l), draw(f(l)))
 		}
+	}
+}
+
+// 2816m Double a Number Represented as a Linked List
+func Test2816(t *testing.T) {
+	draw := func(n *ListNode) string {
+		var bfr bytes.Buffer
+		for ; n != nil; n = n.Next {
+			if n.Next != nil {
+				fmt.Fprintf(&bfr, "{%d *}->", n.Val)
+			} else {
+				fmt.Fprintf(&bfr, "{%d /}", n.Val)
+			}
+		}
+		return bfr.String()
+	}
+
+	type L = ListNode
+	for _, l := range []*L{&L{1, &L{8, &L{Val: 9}}}, &L{9, &L{9, &L{Val: 9}}}, &L{1, &L{}}} {
+		log.Printf("%s  =>  %s", draw(l), draw(doubleIt(l)))
 	}
 }
