@@ -1,5 +1,10 @@
 package DS
 
+import (
+	"slices"
+	"strconv"
+)
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
@@ -36,4 +41,30 @@ func doubleIt(head *ListNode) *ListNode {
 		head = n
 	}
 	return head
+}
+
+// 506 Relative Ranks
+func findRelativeRanks(score []int) []string {
+	pQueue := make([][]int, len(score))
+	for i, v := range score {
+		pQueue[i] = []int{i, v}
+	}
+	slices.SortFunc(pQueue, func(x, y []int) int { return y[1] - x[1] })
+
+	Rank := make([]string, len(score))
+	for i, v := range pQueue {
+		var rank string
+		switch i {
+		case 0:
+			rank = "Gold Medal"
+		case 1:
+			rank = "Silver Medal"
+		case 2:
+			rank = "Bronze Medal"
+		default:
+			rank = strconv.Itoa(i + 1)
+		}
+		Rank[v[0]] = rank
+	}
+	return Rank
 }

@@ -391,3 +391,10 @@ func Test2816(t *testing.T) {
 		log.Printf("%s  =>  %s", draw(l), draw(doubleIt(l)))
 	}
 }
+
+// 506 Relative Ranks
+func Test506(t *testing.T) {
+	for _, score := range [][]int{{5, 4, 3, 2, 1}, {10, 3, 8, 9, 4}} {
+		log.Printf("%v => %q", score, findRelativeRanks(score))
+	}
+}
