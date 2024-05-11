@@ -2,6 +2,7 @@ package DS
 
 import (
 	"bytes"
+	"container/heap"
 	"container/list"
 	"fmt"
 	"log"
@@ -399,8 +400,49 @@ func Test506(t *testing.T) {
 	}
 }
 
+type e786 struct {
+	N, D int
+	n, d int
+}
+type pq786 []e786
+
+func (p pq786) Len() int               { return len(p) }
+func (p pq786) Less(i int, j int) bool { return p[i].N*p[j].D-p[j].N*p[i].D < 0 }
+func (p pq786) Swap(i int, j int)      { p[i], p[j] = p[j], p[i] }
+func (p *pq786) Push(x any)            { *p = append(*p, x.(e786)) }
+func (p *pq786) Pop() any {
+	x := (*p)[len(*p)-1]
+	*p = (*p)[:len(*p)-1]
+	return x
+}
+
 // 786m K-th Smallest Prime Fraction
 func Test786(t *testing.T) {
-	log.Print("[2 5] ?= ", kthSmallestPrimeFraction([]int{1, 2, 3, 5}, 3))
-	log.Print("[1 7] ?= ", kthSmallestPrimeFraction([]int{1, 7}, 1))
+	Builtin := func(primes []int, k int) []int {
+		pq := pq786{}
+		for i, prime := range primes {
+			heap.Push(&pq, e786{prime, primes[len(primes)-1], i, len(primes) - 1})
+		}
+		log.Print("::", pq)
+
+		for range k - 1 {
+			e := heap.Pop(&pq).(e786)
+			log.Print(e, " <- ", pq)
+
+			n, d := e.n, e.d-1
+			if d > n {
+				heap.Push(&pq, e786{primes[n], primes[d], n, d})
+				log.Print("-> ", pq)
+			}
+		}
+
+		e := heap.Pop(&pq).(e786)
+		return []int{e.N, e.D}
+	}
+
+	for _, f := range []func([]int, int) []int{kthSmallestPrimeFraction, Builtin} {
+		log.Print(runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name(), " ->")
+		log.Print("[2 5] ?= ", f([]int{1, 2, 3, 5}, 3))
+		log.Print("[1 7] ?= ", f([]int{1, 7}, 1))
+	}
 }
