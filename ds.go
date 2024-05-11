@@ -77,15 +77,21 @@ func kthSmallestPrimeFraction(arr []int, k int) []int {
 	var Heapify func(int)
 	Heapify = func(i int) {
 		l, r, p := 2*i+1, 2*i+2, i
-		if l < len(Q) && Q[l][0]*Q[p][1] > Q[l][1]*Q[p][0] {
+		if l < len(Q) && Q[l][0]*Q[p][1] < Q[l][1]*Q[p][0] {
 			p = l
 		}
-		if r < len(Q) && Q[r][0]*Q[p][1] > Q[r][1]*Q[p][0] {
+		if r < len(Q) && Q[r][0]*Q[p][1] < Q[r][1]*Q[p][0] {
 			p = r
 		}
 		if p != i {
 			Q[i], Q[p] = Q[p], Q[i]
 			Heapify(p)
+		}
+	}
+
+	Init := func() {
+		for i := len(Q); i >= 0; i-- {
+			Heapify(i)
 		}
 	}
 
@@ -100,7 +106,7 @@ func kthSmallestPrimeFraction(arr []int, k int) []int {
 	Push := func(v []int) {
 		Q = append(Q, v)
 		i := len(Q) - 1
-		for i > 0 && Q[i][0]*Q[(i-1)/2][1] > Q[i][1]*Q[(i-1)/2][0] {
+		for i > 0 && Q[i][0]*Q[(i-1)/2][1] < Q[i][1]*Q[(i-1)/2][0] {
 			Q[i], Q[(i-1)/2] = Q[(i-1)/2], Q[i]
 			i = (i - 1) / 2
 		}
@@ -109,10 +115,9 @@ func kthSmallestPrimeFraction(arr []int, k int) []int {
 	for i := range arr {
 		Q = append(Q, []int{arr[i], arr[len(arr)-1], i, len(arr) - 1})
 	}
+	Init()
 
-	for i := len(Q) / 2; i >= 0; i-- {
-		Heapify(i)
-	}
+	log.Print("::", Q)
 
 	for range k - 1 {
 		log.Print(Q)
@@ -124,7 +129,6 @@ func kthSmallestPrimeFraction(arr []int, k int) []int {
 		}
 	}
 
-	log.Print(Q)
 	v := Q[0]
-	return []int{arr[v[2]], arr[v[3]]}
+	return []int{v[0], v[1]}
 }
