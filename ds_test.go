@@ -398,3 +398,9 @@ func Test506(t *testing.T) {
 		log.Printf("%v => %q", score, findRelativeRanks(score))
 	}
 }
+
+// 786m K-th Smallest Prime Fraction
+func Test786(t *testing.T) {
+	log.Print("[2 5] ?= ", kthSmallestPrimeFraction([]int{1, 2, 3, 5}, 3))
+	log.Print("[1 7] ?= ", kthSmallestPrimeFraction([]int{1, 7}, 1))
+}

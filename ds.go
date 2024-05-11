@@ -1,6 +1,7 @@
 package DS
 
 import (
+	"log"
 	"slices"
 	"strconv"
 )
@@ -67,4 +68,63 @@ func findRelativeRanks(score []int) []string {
 		Rank[v[0]] = rank
 	}
 	return Rank
+}
+
+// 786 K-th Smallest Prime Fraction
+func kthSmallestPrimeFraction(arr []int, k int) []int {
+	Q := [][]int{}
+
+	var Heapify func(int)
+	Heapify = func(i int) {
+		l, r, p := 2*i+1, 2*i+2, i
+		if l < len(Q) && Q[l][0]*Q[p][1] > Q[l][1]*Q[p][0] {
+			p = l
+		}
+		if r < len(Q) && Q[r][0]*Q[p][1] > Q[r][1]*Q[p][0] {
+			p = r
+		}
+		if p != i {
+			Q[i], Q[p] = Q[p], Q[i]
+			Heapify(p)
+		}
+	}
+
+	Pop := func() []int {
+		v := Q[0]
+		Q[0] = Q[len(Q)-1]
+		Q = Q[:len(Q)-1]
+		Heapify(0)
+		return v
+	}
+
+	Push := func(v []int) {
+		Q = append(Q, v)
+		i := len(Q) - 1
+		for i > 0 && Q[i][0]*Q[(i-1)/2][1] > Q[i][1]*Q[(i-1)/2][0] {
+			Q[i], Q[(i-1)/2] = Q[(i-1)/2], Q[i]
+			i = (i - 1) / 2
+		}
+	}
+
+	for i := range arr {
+		Q = append(Q, []int{arr[i], arr[len(arr)-1], i, len(arr) - 1})
+	}
+
+	for i := len(Q) / 2; i >= 0; i-- {
+		Heapify(i)
+	}
+
+	for range k - 1 {
+		log.Print(Q)
+
+		v := Pop()
+		n, d := v[2], v[3]-1
+		if d > n {
+			Push([]int{arr[n], arr[d], n, d})
+		}
+	}
+
+	log.Print(Q)
+	v := Q[0]
+	return []int{arr[v[2]], arr[v[3]]}
 }
