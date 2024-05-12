@@ -132,3 +132,24 @@ func kthSmallestPrimeFraction(arr []int, k int) []int {
 	v := Q[0]
 	return []int{v[0], v[1]}
 }
+
+// 2373 Largest Local Values in a Matrix
+func largestLocal(grid [][]int) [][]int {
+	Mx := [][]int{}
+
+	for r := 1; r < len(grid)-1; r++ {
+		Mx = append(Mx, make([]int, len(grid[r])-2))
+
+		for c := 1; c < len(grid[r])-1; c++ {
+			x := grid[r][c]
+			for i := r - 1; i <= r+1; i++ {
+				for j := c - 1; j <= c+1; j++ {
+					x = max(x, grid[i][j])
+				}
+			}
+			Mx[r-1][c-1] = x
+		}
+	}
+
+	return Mx
+}

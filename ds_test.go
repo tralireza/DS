@@ -406,10 +406,10 @@ type e786 struct {
 }
 type pq786 []e786
 
-func (p pq786) Len() int               { return len(p) }
-func (p pq786) Less(i int, j int) bool { return p[i].N*p[j].D-p[j].N*p[i].D < 0 }
-func (p pq786) Swap(i int, j int)      { p[i], p[j] = p[j], p[i] }
-func (p *pq786) Push(x any)            { *p = append(*p, x.(e786)) }
+func (p pq786) Len() int           { return len(p) }
+func (p pq786) Less(i, j int) bool { return p[i].N*p[j].D-p[j].N*p[i].D < 0 }
+func (p pq786) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+func (p *pq786) Push(x any)        { *p = append(*p, x.(e786)) }
 func (p *pq786) Pop() any {
 	x := (*p)[len(*p)-1]
 	*p = (*p)[:len(*p)-1]
@@ -445,4 +445,10 @@ func Test786(t *testing.T) {
 		log.Print("[2 5] ?= ", f([]int{1, 2, 3, 5}, 3))
 		log.Print("[1 7] ?= ", f([]int{1, 7}, 1))
 	}
+}
+
+// 2373 Larget Local Values in a Matrix
+func Test2373(t *testing.T) {
+	log.Print(" ?= ", largestLocal([][]int{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}}))
+	log.Print(" ?= ", largestLocal([][]int{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 2, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}))
 }
