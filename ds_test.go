@@ -401,8 +401,8 @@ func Test506(t *testing.T) {
 }
 
 type e786 struct {
-	N, D int
-	n, d int
+	N, D int // Numerator, Denominator
+	n, d int // N & D Index
 }
 type pq786 []e786
 
@@ -447,7 +447,7 @@ func Test786(t *testing.T) {
 	}
 }
 
-// 2373 Larget Local Values in a Matrix
+// 2373 Largest Local Values in a Matrix
 func Test2373(t *testing.T) {
 	log.Print(" ?= ", largestLocal([][]int{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}}))
 	log.Print(" ?= ", largestLocal([][]int{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 2, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}))
@@ -455,7 +455,7 @@ func Test2373(t *testing.T) {
 
 // 861m Score After Flipping Matrix
 func Test861(t *testing.T) {
-  log.Print("39 ?= ", matrixScore([][]int{{0,0,1,1},{1,0,1,0},{1,1,0,0}}))
-  log.Print("1 ?= ", matrixScore([][]int{{0}}))
-  log.Print("18 ?= ", matrixScore([][]int{{0,1,1},{1,1,1},{0,1,0}}))
+	log.Print("39 ?= ", matrixScore([][]int{{0, 0, 1, 1}, {1, 0, 1, 0}, {1, 1, 0, 0}}))
+	log.Print("1 ?= ", matrixScore([][]int{{0}}))
+	log.Print("18 ?= ", matrixScore([][]int{{0, 1, 1}, {1, 1, 1}, {0, 1, 0}}))
 }
