@@ -452,3 +452,10 @@ func Test2373(t *testing.T) {
 	log.Print(" ?= ", largestLocal([][]int{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}}))
 	log.Print(" ?= ", largestLocal([][]int{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 2, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}))
 }
+
+// 861m Score After Flipping Matrix
+func Test861(t *testing.T) {
+  log.Print("39 ?= ", matrixScore([][]int{{0,0,1,1},{1,0,1,0},{1,1,0,0}}))
+  log.Print("1 ?= ", matrixScore([][]int{{0}}))
+  log.Print("18 ?= ", matrixScore([][]int{{0,1,1},{1,1,1},{0,1,0}}))
+}

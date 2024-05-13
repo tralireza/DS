@@ -153,3 +153,39 @@ func largestLocal(grid [][]int) [][]int {
 
 	return Mx
 }
+
+// 861m Score After Flipping Matrix
+func matrixScore(grid [][]int) int {
+	for r := 0; r < len(grid); r++ {
+		if grid[r][0] != 1 {
+			for c := 0; c < len(grid[r]); c++ {
+				grid[r][c] = ^(grid[r][c] & 1) & 1
+			}
+		}
+	}
+	log.Print(" -> ", grid)
+
+	for c := 1; c < len(grid[0]); c++ {
+		ones := 0
+		for r := 0; r < len(grid); r++ {
+			ones += grid[r][c]
+		}
+
+		if ones <= (len(grid)-1)/2 {
+			for r := 0; r < len(grid); r++ {
+				grid[r][c] = ^(grid[r][c] & 1) & 1
+			}
+		}
+	}
+	log.Print(" -> ", grid)
+
+	score := 0
+	for r := 0; r < len(grid); r++ {
+		v := 0
+		for c := 0; c < len(grid[0]); c++ {
+			v += v + grid[r][c]
+		}
+		score += v
+	}
+	return score
+}
