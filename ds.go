@@ -171,7 +171,7 @@ func matrixScore(grid [][]int) int {
 			ones += grid[r][c]
 		}
 
-		if ones <= (len(grid)-1)/2 {
+		if ones <= len(grid)-ones {
 			for r := 0; r < len(grid); r++ {
 				grid[r][c] = ^(grid[r][c] & 1) & 1
 			}
