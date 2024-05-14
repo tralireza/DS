@@ -154,6 +154,43 @@ func largestLocal(grid [][]int) [][]int {
 	return Mx
 }
 
+// 1219m Path with Maximum Gold
+func getMaximumGold(grid [][]int) int {
+	Rows, Cols := len(grid), len(grid[0])
+	gold := 0
+
+	dirs := []int{0, 1, 0, -1, 0}
+
+	var Search func(r, c, g int) int
+	Search = func(r, c, g int) int {
+		log.Printf("G: %2d  (%d,%d) -> %v", g, r, c, grid)
+		for i := range dirs[:4] {
+			x, y := r+dirs[i], c+dirs[i+1]
+			if x >= 0 && x < Rows && y >= 0 && y < Cols && grid[x][y] > 0 {
+				g += grid[x][y]
+				grid[x][y] *= -1
+				gold = max(Search(x, y, g), gold)
+
+				grid[x][y] *= -1
+				g -= grid[x][y]
+			}
+		}
+		return g
+	}
+
+	for r := 0; r < Rows; r++ {
+		for c := 0; c < Cols; c++ {
+			if grid[r][c] > 0 {
+				grid[r][c] *= -1
+				gold = max(Search(r, c, -grid[r][c]), gold)
+				grid[r][c] *= -1
+			}
+		}
+	}
+
+	return gold
+}
+
 // 861m Score After Flipping Matrix
 func matrixScore(grid [][]int) int {
 	for r := 0; r < len(grid); r++ {

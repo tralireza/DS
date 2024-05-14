@@ -453,6 +453,13 @@ func Test2373(t *testing.T) {
 	log.Print(" ?= ", largestLocal([][]int{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 2, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}))
 }
 
+// 1219m Path with Maximum Gold
+func Test1219(t *testing.T) {
+	log.Print("24 ?= ", getMaximumGold([][]int{{0, 6, 0}, {5, 8, 7}, {0, 9, 0}}))
+	log.Print("28 ?= ", getMaximumGold([][]int{{1, 0, 7}, {2, 0, 6}, {3, 4, 5}, {0, 3, 0}, {9, 0, 20}}))
+	log.Print("38 ?= ", getMaximumGold([][]int{{0, 0, 34, 0, 5, 0, 7, 0, 0, 0}, {0, 0, 0, 0, 21, 0, 0, 0, 0, 0}, {0, 18, 0, 0, 8, 0, 0, 0, 4, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {15, 0, 0, 0, 0, 22, 0, 0, 0, 21}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 7, 0, 0, 0, 0, 0, 0, 38, 0}}))
+}
+
 // 861m Score After Flipping Matrix
 func Test861(t *testing.T) {
 	log.Print("39 ?= ", matrixScore([][]int{{0, 0, 1, 1}, {1, 0, 1, 0}, {1, 1, 0, 0}}))
