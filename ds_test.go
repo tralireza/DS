@@ -474,11 +474,10 @@ func Test2331(t *testing.T) {
 		Q.PushBack(root)
 
 		for Q.Len() > 0 {
-			n := Q.Back().Value.(*TreeNode)
+			n := Q.Remove(Q.Back()).(*TreeNode)
 
 			if n.Left == nil && n.Right == nil {
 				Vm[n] = n.Val > 0
-				Q.Remove(Q.Back())
 			} else {
 				l, lok := Vm[n.Left]
 				r, rok := Vm[n.Right]
@@ -488,8 +487,8 @@ func Test2331(t *testing.T) {
 					} else {
 						Vm[n] = l && r
 					}
-					Q.Remove(Q.Back())
 				} else {
+					Q.PushBack(n)
 					Q.PushBack(n.Left)
 					Q.PushBack(n.Right)
 				}
