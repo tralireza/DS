@@ -466,3 +466,10 @@ func Test861(t *testing.T) {
 	log.Print("1 ?= ", matrixScore([][]int{{0}}))
 	log.Print("18 ?= ", matrixScore([][]int{{0, 1, 1}, {1, 1, 1}, {0, 1, 0}}))
 }
+
+// 2331 Evalute Boolean Binary Tree
+func Test2331(t *testing.T) {
+	type T = TreeNode
+	log.Print("true ?= ", evaluateTree(&T{2, &T{Val: 1}, &T{3, &T{Val: 0}, &T{Val: 1}}}))
+	log.Print("false ?= ", evaluateTree(&T{Val: 0}))
+}
