@@ -227,6 +227,11 @@ func matrixScore(grid [][]int) int {
 	return score
 }
 
+type TreeNode struct {
+	Val         int
+	Left, Right *TreeNode
+}
+
 // 2331 Evaluate Boolean Binary Tree
 func evaluateTree(root *TreeNode) bool {
 	if root.Left == nil && root.Right == nil {
