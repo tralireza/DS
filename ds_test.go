@@ -469,7 +469,41 @@ func Test861(t *testing.T) {
 
 // 2331 Evalute Boolean Binary Tree
 func Test2331(t *testing.T) {
+	iterative := func(root *TreeNode) bool {
+		Q, Vm := list.New(), map[*TreeNode]bool{}
+		Q.PushBack(root)
+
+		for Q.Len() > 0 {
+			n := Q.Back().Value.(*TreeNode)
+
+			if n.Left == nil && n.Right == nil {
+				Vm[n] = n.Val > 0
+				Q.Remove(Q.Back())
+			} else {
+				l, lok := Vm[n.Left]
+				r, rok := Vm[n.Right]
+				if lok && rok {
+					if n.Val == 2 {
+						Vm[n] = l || r
+					} else {
+						Vm[n] = l && r
+					}
+					Q.Remove(Q.Back())
+				} else {
+					Q.PushBack(n.Left)
+					Q.PushBack(n.Right)
+				}
+			}
+
+			log.Print(n, Vm)
+		}
+
+		return Vm[root]
+	}
+
 	type T = TreeNode
-	log.Print("true ?= ", evaluateTree(&T{2, &T{Val: 1}, &T{3, &T{Val: 0}, &T{Val: 1}}}))
-	log.Print("false ?= ", evaluateTree(&T{Val: 0}))
+	for _, f := range []func(*TreeNode) bool{evaluateTree, iterative} {
+		log.Print("true ?= ", f(&T{2, &T{Val: 1}, &T{3, &T{Val: 0}, &T{Val: 1}}}))
+		log.Print("false ?= ", f(&T{Val: 0}))
+	}
 }
