@@ -1,2 +1,2 @@
-Simple & (not so Simple) DS Proglems in Go
+Simple & (not so Simple) DS Problems in Go
 ==
