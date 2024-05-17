@@ -2,6 +2,7 @@ package DS
 
 import (
 	"log"
+	"math"
 	"slices"
 	"strconv"
 )
@@ -225,6 +226,72 @@ func matrixScore(grid [][]int) int {
 		score += v
 	}
 	return score
+}
+
+// 857h Minimum Cost to Hire K Workers
+func mincostToHireWorkers(quality []int, wage []int, k int) float64 {
+	Q := []int{} // Heap: Priority Queue
+
+	var Heapify func(i int)
+	Heapify = func(i int) {
+		l, r, p := 2*i+1, 2*i+2, i
+		if l < len(Q) && Q[l] > Q[p] {
+			p = l
+		}
+		if r < len(Q) && Q[r] > Q[p] {
+			r = p
+		}
+		if p != i {
+			Q[i], Q[p] = Q[p], Q[i]
+			Heapify(p)
+		}
+	}
+	Pop := func() int {
+		v := Q[0]
+		Q[0], Q = Q[len(Q)-1], Q[:len(Q)-1]
+		Heapify(0)
+		return v
+	}
+	Push := func(v int) {
+		Q = append(Q, v)
+		i := len(Q) - 1
+		for i > 0 && Q[i] > Q[(i-1)/2] {
+			Q[i], Q[(i-1)/2] = Q[(i-1)/2], Q[i]
+			i = (i - 1) / 2
+		}
+	}
+
+	type Worker struct {
+		r    float64
+		w, q int
+	}
+	Workers := []Worker{}
+	for i, q := range quality {
+		Workers = append(Workers, Worker{float64(wage[i]) / float64(q), wage[i], q})
+	}
+	slices.SortFunc(Workers, func(a, b Worker) int { return a.w*b.q - a.q*b.w })
+	log.Print(Workers)
+
+	mCost, tQ := math.MaxFloat64, 0
+	for _, worker := range Workers {
+		log.Print(worker)
+
+		tQ += worker.q
+
+		Push(worker.q)
+		log.Print(worker.q, " -> ", Q)
+
+		if len(Q) > k {
+			log.Print(" <- ", Q)
+			tQ -= Pop()
+		}
+
+		if len(Q) == k {
+			mCost = min(mCost, float64(tQ)*worker.r)
+			log.Print(mCost, tQ, worker.q)
+		}
+	}
+	return mCost
 }
 
 type TreeNode struct {

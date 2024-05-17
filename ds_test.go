@@ -467,6 +467,12 @@ func Test861(t *testing.T) {
 	log.Print("18 ?= ", matrixScore([][]int{{0, 1, 1}, {1, 1, 1}, {0, 1, 0}}))
 }
 
+// 857h Minimum Cost to Hire K Workers
+func Test857(t *testing.T) {
+	log.Print("105 ?= ", mincostToHireWorkers([]int{10, 20, 5}, []int{70, 50, 30}, 2))
+	log.Print("31.6 ?= ", mincostToHireWorkers([]int{3, 1, 10, 10, 1}, []int{4, 8, 2, 2, 7}, 3))
+}
+
 // 2331 Evalute Boolean Binary Tree
 func Test2331(t *testing.T) {
 	iterative := func(root *TreeNode) bool {
