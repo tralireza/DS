@@ -325,3 +325,52 @@ func removeLeafNodes(root *TreeNode, target int) *TreeNode {
 	}
 	return root
 }
+
+// 3068h Find the Maximum Sum of Node Values
+func maximumValueSum(nums []int, k int, edges [][]int) int64 {
+	lsAdj := make([][]int, len(nums))
+	for _, e := range edges {
+		v, u := e[0], e[1]
+		lsAdj[v], lsAdj[u] = append(lsAdj[v], u), append(lsAdj[u], v)
+	}
+	log.Print(lsAdj)
+
+	Vis := make([]bool, len(nums))
+
+	var DFS func(int) (xSum, noxSum int64)
+	DFS = func(v int) (xSum, noxSum int64) {
+		Vis[v] = true
+
+		mSum, cntXor := int64(nums[v]), 0
+		xOr := int64(nums[v] ^ k)
+		diff := mSum - xOr
+		if int64(nums[v]^k) > mSum {
+			mSum = int64(nums[v] ^ k)
+			cntXor++
+			diff *= -1
+		}
+
+		for _, u := range lsAdj[v] {
+			if !Vis[u] {
+				xOr, noXor := DFS(u)
+				if xOr > noXor {
+					mSum += xOr
+					diff = min(diff, xOr-noXor)
+				} else {
+					mSum += noXor
+					cntXor++
+					diff = min(diff, noXor-xOr)
+				}
+			}
+		}
+
+		if cntXor&1 == 0 {
+			return mSum, mSum - diff
+		} else {
+			return mSum - diff, mSum
+		}
+	}
+
+	v, _ := DFS(0)
+	return v
+}

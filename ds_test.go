@@ -539,3 +539,11 @@ func Test1325(t *testing.T) {
 	Draw(removeLeafNodes(r, 2))
 	fmt.Println()
 }
+
+// 3068h Find the Maximum Sum of Node Values
+func Test3068(t *testing.T) {
+	log.Print("6 ?= ", maximumValueSum([]int{1, 2, 1}, 3, [][]int{{0, 1}, {0, 2}}))
+	log.Print("9 ?= ", maximumValueSum([]int{2, 3}, 7, [][]int{{0, 1}}))
+	log.Print("42 ?= ", maximumValueSum([]int{7, 7, 7, 7, 7, 7}, 3, [][]int{{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}}))
+	log.Print("260 ?= ", maximumValueSum([]int{24, 78, 1, 97, 44}, 6, [][]int{{0, 2}, {1, 2}, {4, 2}, {3, 4}}))
+}
